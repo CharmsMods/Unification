@@ -2,16 +2,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the page
     const userSelectionSection = document.getElementById('user-selection-section');
 
-    // Updated Dummy user data
+    // Updated Dummy user data with background images
     const users = [
-        { id: 'user-kingbowserxd', name: 'King_BowserxD', content: 'Bowser is the king of the castle! Expect epic gaming highlights and maybe some villainous plans.' },
-        { id: 'user-charm', name: 'Charm?', content: 'Charm shares cool tech and bio updates. Always up-to-date with the latest gadgets and trends.' },
-        { id: 'user-inception', name: 'Inception', content: 'Inception explores deep ideas and cryptic messages. Dive into complex theories and mind-bending concepts.' },
-        { id: 'user-nypd', name: 'NYPD', content: 'NYPD keeps an eye on the server and shares good vibes. Providing a sense of order and fun.' },
-        { id: 'user-lisa061', name: 'Lisa061', content: 'Lisa is all about art and creativity. Discover beautiful illustrations and artistic projects.' },
-        { id: 'user-lucky', name: 'Lucky?', content: 'Lucky shares fun stuff and good omens. Get your daily dose of good fortune and lighthearted content.' },
-        { id: 'user-ydkaaron19', name: 'ydk_aaron19', content: 'Aaron is crowned for his contributions. A true leader sharing insights and wisdom.' },
-        { id: 'user-jonath94k', name: 'jonath94k', content: 'Jonath brings unique perspectives. Explore different viewpoints and engaging discussions.' },
+        { 
+            id: 'user-kingbowserxd', 
+            name: 'King_BowserxD', 
+            content: 'Bowser is the king of the castle! Expect epic gaming highlights and maybe some villainous plans.',
+            background: 'kingbowserxd.webp'
+        },
+        { 
+            id: 'user-charm', 
+            name: 'Charm?', 
+            content: 'Charm shares cool tech and bio updates. Always up-to-date with the latest gadgets and trends.',
+            background: 'charm.webp'
+        },
+        { 
+            id: 'user-inception', 
+            name: 'Inception', 
+            content: 'Inception explores deep ideas and cryptic messages. Dive into complex theories and mind-bending concepts.',
+            background: 'inception.webp'
+        },
+        { 
+            id: 'user-nypd', 
+            name: 'NYPD', 
+            content: 'NYPD keeps an eye on the server and shares good vibes. Providing a sense of order and fun.',
+            background: 'nypd.webp'
+        },
+        { 
+            id: 'user-lisa061', 
+            name: 'Lisa061', 
+            content: 'Lisa is all about art and creativity. Discover beautiful illustrations and artistic projects.',
+            background: 'lisa061.webp'
+        },
+        { 
+            id: 'user-lucky', 
+            name: 'Lucky?', 
+            content: 'Lucky shares fun stuff and good omens. Get your daily dose of good fortune and lighthearted content.',
+            background: 'lucky.webp'
+        },
+        { 
+            id: 'user-ydkaaron19', 
+            name: 'ydk_aaron19', 
+            content: 'Aaron is crowned for his contributions. A true leader sharing insights and wisdom.',
+            background: 'aaron19.webp'
+        },
+        { 
+            id: 'user-jonath94k', 
+            name: 'jonath94k', 
+            content: 'Jonath brings unique perspectives. Explore different viewpoints and engaging discussions.',
+            background: 'jonath94k.webp'
+        },
         // Add more users here if needed
         // { id: 'user-newguy', name: 'NewGuy', content: 'NewGuy is just getting started, but has great potential!' }
     ];
@@ -58,6 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add 'active' class to the clicked user's button
         const clickedUserButton = document.querySelector(`.user-button[data-user-id="${user.id}"]`);
+        
+        // Set the user-specific background for the content section
+        const userContentSection = document.getElementById('user-content-display-section');
+        if (user.background) {
+            const backgroundPath = `../backgrounds/usersbackgrounds/${user.background}`;
+            userContentSection.style.background = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${backgroundPath}') no-repeat center center`;
+            userContentSection.style.backgroundSize = 'cover';
+        }
         if (clickedUserButton) {
             clickedUserButton.classList.add('active');
         }

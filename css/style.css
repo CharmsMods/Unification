@@ -307,11 +307,16 @@ body {
 
 /* User Content Display Section */
 #user-content-display-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                url('../backgrounds/3.webp') no-repeat center center;
+    background-color: #1a1a1a; /* Fallback color */
     background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     position: relative;
     color: white;
+    min-height: 60vh; /* Ensure minimum height for content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #user-content-display-section h2 {
