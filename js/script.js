@@ -1,11 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll for "Explore Members" button
-    const exploreBtn = document.getElementById('explore-members-btn');
+    // Initialize the page
     const userSelectionSection = document.getElementById('user-selection-section');
-
-    exploreBtn.addEventListener('click', () => {
-        userSelectionSection.scrollIntoView({ behavior: 'smooth' });
-    });
 
     // Updated Dummy user data
     const users = [
