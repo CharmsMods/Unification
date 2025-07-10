@@ -1,0 +1,222 @@
+/* General Body & Container Styles (no change) */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+/* Main Sections */
+.section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+/* Landing Section */
+#landing-section {
+    background-color: #282828;
+    position: relative;
+}
+
+#landing-section h1 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    color: #ff568e;
+}
+
+#landing-section p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+#explore-members-btn {
+    background-color: #ff568e;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#explore-members-btn:hover {
+    background-color: #e04a7c;
+}
+
+/* User Selection Section */
+#user-selection-section {
+    background-color: #212121;
+    position: relative;
+}
+
+#user-selection-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #ff568e;
+}
+
+/* Adapted CSS for the new structure: */
+/* This now takes on the properties of the original `.card` */
+.member-buttons-container {
+    width: 100%;
+    background: transparent; /* Make background transparent */
+    display: flex;
+    gap: 15px; /* Slightly larger gap between buttons */
+    padding: 1em; /* Add some padding around the buttons */
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 30px; /* Center the container */
+    max-width: 1200px; /* Limit maximum width */
+    position: relative;
+}
+
+
+/* This now takes on the properties of the original `.card p` */
+.user-button { /* Renamed from .card p to .user-button for clarity */
+    height: 254px; /* Set height for each individual button */
+    flex: 1; /* Allows it to grow/shrink in a flex container */
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .3s ease;
+    background: #212121; /* Button background */
+    border: 1px solid #ffffff; /* White border for normal state */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100px; /* Ensure a minimum width so they don't get too small */
+    max-width: 210px; /* Max width, like the original .card */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.user-button:hover {
+    flex: 4; /* Preserve the expansion effect */
+    border-color: #00ffff; /* Cyan border on hover */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Subtle glow on hover */
+}
+
+/* This now takes on the properties of the original `.card p span` */
+.user-button span { /* Renamed from .card p span to .user-button span */
+    min-width: 14em; /* Preserve the min-width for text rotation */
+    padding: .5em;
+    text-align: center;
+    transform: rotate(-90deg);
+    transition: all .5s;
+    text-transform: uppercase;
+    color: #ff568e;
+    letter-spacing: .1em;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent text from wrapping within the span */
+}
+
+.user-button:hover span { /* Preserve the text rotation effect */
+    transform: rotate(0);
+}
+
+.user-button.active { /* Style for the currently selected user button */
+    border-color: #00ffff; /* Cyan border for active state */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); /* Cyan glow effect */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+
+.scroll-hint { /* No change to this */
+    margin-top: 20px;
+    font-style: italic;
+    color: #aaa;
+    display: none;
+}
+
+
+/* User Content Display Section */
+#user-content-display-section {
+    background-color: #333;
+    position: relative;
+}
+
+#user-content-display-section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+#user-content-area {
+    background-color: #282828;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: left;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.placeholder-text {
+    font-style: italic;
+    color: #ccc;
+    font-size: 1.1em;
+}
+
+/* Bottom Banner (Footer) (no change) */
+#bottom-banner {
+    background-color: #1a1a1a;
+    color: #bbb;
+    padding: 20px 0;
+    font-size: 0.9em;
+    border-top: 1px solid #333;
+}
+
+#bottom-banner p {
+    margin: 5px 0;
+}
+
+#bottom-banner a {
+    color: #ff568e;
+    text-decoration: none;
+}
+
+#bottom-banner a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #landing-section h1 {
+        font-size: 2.5em;
+    }
+
+    #user-selection-section h2 {
+        font-size: 2em;
+    }
+
+    .user-button { /* Adjusted for smaller screens */
+        min-width: 80px; /* Allow buttons to be smaller */
+        height: 200px; /* Reduce height as well */
+        max-width: 150px;
+    }
+
+    .user-button span {
+        min-width: 10em; /* Adjust span width */
+    }
+}
