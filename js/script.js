@@ -50,7 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'user-jonath94k', 
             name: 'jonath94k', 
             content: 'Jonath brings unique perspectives. Explore different viewpoints and engaging discussions.',
-            background: 'jonath94k.webp'
+            background: 'jonath94k.webp',
+            social: {
+                discord: '909792062386360320'
+            }
         },
         // Add more users here if needed
         // { id: 'user-newguy', name: 'NewGuy', content: 'NewGuy is just getting started, but has great potential!' }
@@ -74,7 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
             span.textContent = user.name; // Display user's name
             userButtonP.appendChild(span);
 
-            userButtonP.addEventListener('click', () => selectUser(user));
+            userButtonP.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor behavior
+                selectUser(user);
+            });
             memberButtonsContainer.appendChild(userButtonP);
         });
 
@@ -121,18 +127,36 @@ document.addEventListener('DOMContentLoaded', () => {
         userDescription.textContent = user.content;
         contentDiv.appendChild(userDescription);
 
-        // --- Example of adding more content types (expand these as needed) ---
-        // if (user.images && user.images.length > 0) {
-        //     const imageGallery = document.createElement('div');
-        //     imageGallery.classList.add('image-gallery');
-        //     user.images.forEach(imgSrc => {
-        //         const img = document.createElement('img');
-        //         img.src = `img/${imgSrc}`;
-        //         img.alt = `${user.name}'s image`;
-        //         imageGallery.appendChild(img);
-        //     });
-        //     contentDiv.appendChild(imageGallery);
-        // }
+        // Add social links if they exist
+        if (user.social) {
+            const socialLinks = document.createElement('div');
+            socialLinks.classList.add('social-links');
+            
+            if (user.social.discord) {
+                const discordLink = document.createElement('a');
+                discordLink.href = `https://discord.com/users/${user.social.discord}`;
+                discordLink.target = '_blank';
+                discordLink.rel = 'noopener noreferrer';
+                discordLink.innerHTML = '💬 Discord';
+                discordLink.classList.add('social-link', 'discord');
+                socialLinks.appendChild(discordLink);
+            }
+            
+            if (user.social.github) {
+                const githubLink = document.createElement('a');
+                githubLink.href = user.social.github;
+                githubLink.target = '_blank';
+                githubLink.rel = 'noopener noreferrer';
+                githubLink.innerHTML = '🐱 GitHub';
+                githubLink.classList.add('social-link', 'github');
+                socialLinks.appendChild(githubLink);
+            }
+            
+            if (socialLinks.hasChildNodes()) {
+                contentDiv.appendChild(document.createElement('br'));
+                contentDiv.appendChild(socialLinks);
+            }
+        }
 
         userContentArea.appendChild(contentDiv);
 

@@ -29,6 +29,8 @@ body {
     align-items: center;
     padding: 20px 0;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Landing Section */
@@ -313,10 +315,54 @@ body {
     background-repeat: no-repeat;
     position: relative;
     color: white;
-    min-height: 60vh; /* Ensure minimum height for content */
+    min-height: 100vh; /* Match other sections */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px 0; /* Add some padding */
+}
+
+#user-content-area {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.social-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+}
+
+.social-link.discord {
+    background-color: #5865F2;
+}
+
+.social-link.github {
+    background-color: #333;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 
 #user-content-display-section h2 {
