@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Add fade-in class to elements that should fade in on load
+    const fadeElements = [
+        document.querySelector('.hero-content h1'),
+        document.querySelector('#user-selection-section h2'),
+        document.querySelector('.member-buttons-container')
+    ];
+    
+    // Add initial delay before starting animations
+    setTimeout(() => {
+        fadeElements.forEach((el, index) => {
+            if (el) {
+                // Add fade-in class with staggered delay
+                setTimeout(() => {
+                    el.classList.add('fade-in');
+                }, 300 * index); // Increased delay between elements
+            }
+        });
+    }, 500); // Initial delay before any animation starts
+    
     // Initialize the page
     const userSelectionSection = document.getElementById('user-selection-section');
 
@@ -14,13 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'user-charm', 
             name: 'Charm?', 
             content: 'Charm shares cool tech and bio updates. Always up-to-date with the latest gadgets and trends.',
-            background: 'charm.webp'
+            background: 'charm.mp4',
+            backgroundType: 'video' // Indicate this is a video background
         },
         { 
             id: 'user-inception', 
             name: 'Inception', 
             content: 'Inception explores deep ideas and cryptic messages. Dive into complex theories and mind-bending concepts.',
-            background: 'inception.webp'
+            background: 'inception.gif' // Changed to GIF for animated background
         },
         { 
             id: 'user-nypd', 
@@ -107,10 +127,156 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Set the user-specific background for the content section
         const userContentSection = document.getElementById('user-content-display-section');
+        
+        // Remove any existing background elements
+        const existingBg = document.getElementById('bg-overlay');
+        if (existingBg) {
+            existingBg.remove();
+        }
+        
         if (user.background) {
-            const backgroundPath = `../backgrounds/usersbackgrounds/${user.background}`;
-            userContentSection.style.background = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${backgroundPath}') no-repeat center center`;
-            userContentSection.style.backgroundSize = 'cover';
+            const backgroundPath = `backgrounds/usersbackgrounds/${user.background}`;
+            const isGif = user.background.toLowerCase().endsWith('.gif');
+            const isVideo = user.backgroundType === 'video' || user.background.toLowerCase().endsWith('.mp4') || 
+                           user.background.toLowerCase().endsWith('.webm');
+            
+            // Reset any previous background styles
+            userContentSection.style.background = '';
+            userContentSection.style.backgroundColor = '';
+            
+            // Create a container for the background
+            const bgOverlay = document.createElement('div');
+            bgOverlay.id = 'bg-overlay';
+            bgOverlay.style.position = 'absolute';
+            bgOverlay.style.top = '0';
+            bgOverlay.style.left = '0';
+            bgOverlay.style.width = '100%';
+            bgOverlay.style.height = '100%';
+            bgOverlay.style.zIndex = '-1';
+            bgOverlay.style.overflow = 'hidden';
+            
+            if (isVideo) {
+                console.log('Setting up video background:', backgroundPath);
+                
+                // For video backgrounds
+                const video = document.createElement('video');
+                video.id = 'user-video-bg';
+                video.autoplay = true;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.preload = 'auto';
+                video.style.position = 'absolute';
+                video.style.top = '50%';
+                video.style.left = '50%';
+                video.style.transform = 'translate(-50%, -50%)';
+                video.style.minWidth = '100%';
+                video.style.minHeight = '100%';
+                video.style.objectFit = 'cover';
+                
+                // Add error handling
+                video.onerror = function(e) {
+                    console.error('Video error:', e);
+                    console.error('Video error details:', video.error);
+                    console.error('Video source:', backgroundPath);
+                };
+                
+                video.onloadedmetadata = function() {
+                    console.log('Video metadata loaded');
+                    console.log('Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+                    console.log('Video duration:', video.duration);
+                };
+                
+                video.oncanplay = function() {
+                    console.log('Video can play');
+                    video.play().catch(e => console.error('Play failed:', e));
+                };
+                
+                // Add source for video
+                const source = document.createElement('source');
+                const fileExtension = user.background.split('.').pop().toLowerCase();
+                const mimeType = fileExtension === 'webm' ? 'video/webm' : 'video/mp4';
+                
+                source.src = backgroundPath;
+                source.type = mimeType;
+                console.log('Setting video source:', {
+                    src: source.src,
+                    type: source.type,
+                    fullPath: new URL(backgroundPath, window.location.href).href
+                });
+                
+                // Clear any existing sources and add the new one
+                video.innerHTML = '';
+                video.appendChild(source);
+                
+                // Preload the next loop of the video to prevent hitches
+                video.addEventListener('timeupdate', function() {
+                    if (this.duration > 0 && this.currentTime > this.duration - 0.5) {
+                        this.currentTime = 0;
+                    }
+                });
+                
+                // Add to DOM first
+                bgOverlay.appendChild(video);
+                
+                // Try to play the video
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Autoplay was prevented:', error);
+                        // Add a play button if autoplay is blocked
+                        const playButton = document.createElement('div');
+                        playButton.className = 'video-play-button';
+                        playButton.innerHTML = '▶';
+                        playButton.addEventListener('click', () => {
+                            video.play().then(() => {
+                                playButton.remove();
+                            }).catch(e => {
+                                console.error('Manual play failed:', e);
+                                playButton.textContent = '❌ Click to try again';
+                            });
+                        });
+                        bgOverlay.appendChild(playButton);
+                    });
+                }
+                
+                userContentSection.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                
+                // Debug: Log video state after a short delay
+                setTimeout(() => {
+                    console.log('Video state after loading:', {
+                        readyState: video.readyState,
+                        networkState: video.networkState,
+                        error: video.error,
+                        currentSrc: video.currentSrc,
+                        paused: video.paused,
+                        ended: video.ended
+                    });
+                }, 1000);
+                
+            } else if (isGif) {
+                // For GIFs
+                const gif = document.createElement('div');
+                gif.style.width = '100%';
+                gif.style.height = '100%';
+                gif.style.background = `url('${backgroundPath}') no-repeat center center`;
+                gif.style.backgroundSize = 'cover';
+                gif.style.opacity = '0.5';
+                bgOverlay.appendChild(gif);
+                userContentSection.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                
+            } else {
+                // For static images
+                userContentSection.style.background = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${backgroundPath}') no-repeat center center`;
+                userContentSection.style.backgroundSize = 'cover';
+                return; // No need for additional overlay for static images
+            }
+            
+            // Add the background overlay to the section
+            userContentSection.insertBefore(bgOverlay, userContentSection.firstChild);
+            userContentSection.style.position = 'relative';
+            userContentSection.style.overflow = 'hidden';
         }
         if (clickedUserButton) {
             clickedUserButton.classList.add('active');
@@ -160,8 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         userContentArea.appendChild(contentDiv);
 
-        // Scroll down to the user content section
-        userContentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Only scroll if this was triggered by a user click (not initial load)
+        if (event && event.type === 'click') {
+            userContentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
     // Initial render of user cards
