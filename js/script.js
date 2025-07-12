@@ -27,44 +27,65 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'user-kingbowserxd', 
             name: 'King_BowserxD', 
             content: 'Bowser is the king of the castle! Expect epic gaming highlights and maybe some villainous plans.',
-            background: 'kingbowserxd.webp'
+            background: 'kingbowserxd.webp',
+            social: {
+                discord: '1096806519066079395'
+            }
         },
         { 
             id: 'user-charm', 
             name: 'Charm?', 
             content: 'Charm shares cool tech and bio updates. Always up-to-date with the latest gadgets and trends.',
             background: 'charm.mp4',
-            backgroundType: 'video' // Indicate this is a video background
+            backgroundType: 'video', // Indicate this is a video background
+            social: {
+                discord: '1198452446456983605'
+            }
         },
         { 
             id: 'user-inception', 
             name: 'Inception', 
             content: 'Inception explores deep ideas and cryptic messages. Dive into complex theories and mind-bending concepts.',
-            background: 'inception.gif' // Changed to GIF for animated background
+            background: 'inception.gif', // Changed to GIF for animated background
+            social: {
+                discord: '1332182284081696800'
+            }
         },
         { 
             id: 'user-nypd', 
             name: 'NYPD', 
             content: 'NYPD keeps an eye on the server and shares good vibes. Providing a sense of order and fun.',
-            background: 'nypd.webp'
+            background: 'nypd.webp',
+            social: {
+                discord: '1053300051595763773'
+            }
         },
         { 
             id: 'user-lisa061', 
             name: 'Lisa061', 
             content: 'Lisa is all about art and creativity. Discover beautiful illustrations and artistic projects.',
-            background: 'lisa061.webp'
+            background: 'lisa061.webp',
+            social: {
+                discord: '1289247224072507396'
+            }
         },
         { 
             id: 'user-lucky', 
             name: 'Lucky?', 
             content: 'Lucky shares fun stuff and good omens. Get your daily dose of good fortune and lighthearted content.',
-            background: 'lucky.webp'
+            background: 'lucky.webp',
+            social: {
+                discord: '1287187439797932062'
+            }
         },
         { 
             id: 'user-ydkaaron19', 
             name: 'ydk_aaron19', 
             content: 'Aaron is crowned for his contributions. A true leader sharing insights and wisdom.',
-            background: 'aaron19.webp'
+            background: 'aaron19.webp',
+            social: {
+                discord: '1308968657728045098'
+            }
         },
         { 
             id: 'user-jonath94k', 
@@ -332,11 +353,273 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initial render of user cards
+    // Member Tools Data
+    const memberTools = [
+        {
+            name: "AI Art Generator",
+            creator: "Charm?",
+            description: "A custom AI model trained to generate unique artwork based on text prompts. Uses Stable Diffusion with custom checkpoints.",
+            link: "https://example.com/ai-art",
+            category: "AI"
+        },
+        {
+            name: "Discord Bot",
+            creator: "Inception",
+            description: "A multi-purpose Discord bot with moderation, music, and fun commands. Built with Discord.js.",
+            link: "https://github.com/username/discord-bot",
+            category: "Bot"
+        },
+        {
+            name: "Game Mod Manager",
+            creator: "King_BowserxD",
+            description: "A desktop application to manage game mods with one-click installation and updates.",
+            link: "https://github.com/username/mod-manager",
+            category: "Gaming"
+        }
+    ];
+
+    // External Tools Data
+    const externalTools = [
+    {
+        name: "Upscayl",
+        description: "Free and Open Source AI Image Upscaler for Linux, MacOS and Windows built with Linux-First philosophy.",
+        link: "https://github.com/upscayl/upscayl",
+        category: "AI/Image Processing"
+    },
+    {
+        name: "Flowframes",
+        description: "AI-powered frame interpolation (\"inbetweening\") and video upscaling GUI application.",
+        link: "https://nmkd.itch.io/flowframes",
+        category: "Video Processing"
+    },
+    {
+        name: "OBS Studio",
+        description: "Free and open source software for video recording and live streaming.",
+        link: "https://obsproject.com/",
+        category: "Streaming"
+    },
+    {
+        name: "Blender",
+        description: "Free and open source 3D creation suite. Supports the entirety of the 3D pipeline.",
+        link: "https://www.blender.org/",
+        category: "3D Modeling"
+    },
+    {
+        name: "Audacity",
+        description: "Free, open source, cross-platform audio software for multi-track recording and editing.",
+        link: "https://www.audacityteam.org/",
+        category: "Audio Editing"
+    },
+    {
+        name: "GIMP",
+        description: "GNU Image Manipulation Program, a free and open-source raster graphics editor.",
+        link: "https://www.gimp.org/",
+        category: "Image Editing"
+    }
+];
+
+    // Function to create tool cards
+    function createToolCard(tool, isMemberTool = true) {
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    
+    const title = document.createElement('h4');
+    title.textContent = tool.name;
+    
+    const creator = isMemberTool ? `<p class="tool-creator">By: ${tool.creator}</p>` : '';
+    const category = `<p class="tool-category">${tool.category}</p>`;
+    
+    const description = document.createElement('p');
+    description.className = 'tool-description';
+    description.textContent = tool.description;
+    
+    const link = document.createElement('a');
+    link.href = tool.link;
+    link.className = 'tool-link';
+    link.textContent = 'View Tool';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    
+    card.innerHTML = `
+        <h4>${tool.name}</h4>
+        ${isMemberTool ? `<p class="tool-creator">By: ${tool.creator}</p>` : ''}
+        <p class="tool-category">${tool.category}</p>
+        <p class="tool-description">${tool.description}</p>
+    `;
+    card.appendChild(link);
+    
+    return card;
+}
+
+    // Function to populate tools
+    function populateTools() {
+    const memberToolsContainer = document.getElementById('member-tools');
+    const externalToolsContainer = document.getElementById('external-tools');
+    
+    // Clear existing content
+    memberToolsContainer.innerHTML = '';
+    externalToolsContainer.innerHTML = '';
+    
+    // Add member tools
+    memberTools.forEach(tool => {
+        const toolCard = createToolCard(tool, true);
+        memberToolsContainer.appendChild(toolCard);
+    });
+    
+    // Add external tools
+    externalTools.forEach(tool => {
+        const toolCard = createToolCard(tool, false);
+        externalToolsContainer.appendChild(toolCard);
+    });
+}
+
+    // Initialize user cards and tools when DOM is loaded
     renderUserCards();
+    populateTools();
 
     // Optionally, select the first user by default on page load
     if (users.length > 0) {
         selectUser(users[0]);
     }
+
+    // Hamburger menu functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuItems = document.querySelectorAll('.menu-item');
+    const discordLink = document.getElementById('discord-link');
+    const contactLink = document.getElementById('contact-link');
+
+    // Set Discord invite link (replace with your actual invite link)
+    if (discordLink) {
+        discordLink.href = 'YOUR_DISCORD_INVITE_LINK';
+        discordLink.target = '_blank';
+        discordLink.rel = 'noopener noreferrer';
+    }
+
+    // Set contact link (can be mailto: or any other contact method)
+    if (contactLink) {
+        contactLink.href = 'mailto:your-email@example.com';
+    }
+
+    // Smooth scrolling for menu items
+    menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const sectionId = item.getAttribute('data-section');
+            
+            // Only prevent default for anchor links that have data-section attribute
+            if (sectionId) {
+                e.preventDefault();
+                const targetSection = document.getElementById(`${sectionId}-section`);
+                if (targetSection) {
+                    // Close the menu when an item is clicked (on mobile)
+                    if (window.innerWidth <= 992) {
+                        menuToggle.checked = false;
+                    }
+                    
+                    // Smooth scroll to the section
+                    targetSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const isClickInsideMenu = e.target.closest('.menu-container');
+        const isMenuButton = e.target.closest('.hamburger');
+        
+        if (!isClickInsideMenu && !isMenuButton && menuToggle.checked) {
+            menuToggle.checked = false;
+        }
+    });
+
+    // Close menu when scrolling (on mobile)
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 992) {
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            if (Math.abs(st - lastScrollTop) > 10) { // Only if scrolled more than 10px
+                menuToggle.checked = false;
+            }
+            lastScrollTop = st <= 0 ? 0 : st;
+        }
+    });
+
+    // Initialize tooltips
+    function initTooltips() {
+        // Add tooltips to user cards
+        document.querySelectorAll('.user-card').forEach(card => {
+            const username = card.getAttribute('data-username');
+            if (username) {
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.setAttribute('data-tooltip', `Click to view ${username}'s content`);
+                
+                const tooltipText = document.createElement('span');
+                tooltipText.className = 'tooltiptext';
+                tooltipText.textContent = `View ${username}'s content`;
+                
+                tooltip.appendChild(tooltipText);
+                card.appendChild(tooltip);
+            }
+        });
+
+        // Add copy buttons to code blocks and other elements that need it
+        document.querySelectorAll('code, .copyable').forEach(element => {
+            const container = document.createElement('div');
+            container.className = 'copy-container';
+            container.style.position = 'relative';
+            container.style.display = 'inline-block';
+            
+            // Wrap the element in the container
+            element.parentNode.insertBefore(container, element);
+            container.appendChild(element);
+            
+            // Add copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn tooltip';
+            copyBtn.setAttribute('aria-label', 'Copy to clipboard');
+            
+            const copyIcon = document.createElement('span');
+            copyIcon.className = 'copy-icon';
+            copyIcon.innerHTML = '📋';
+            
+            const tooltipText = document.createElement('span');
+            tooltipText.className = 'tooltiptext';
+            tooltipText.textContent = 'Copy to clipboard';
+            
+            copyBtn.appendChild(copyIcon);
+            copyBtn.appendChild(tooltipText);
+            container.appendChild(copyBtn);
+            
+            // Add click event for copying
+            copyBtn.addEventListener('click', () => {
+                const textToCopy = element.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Change icon to indicate success
+                    copyIcon.textContent = '✓';
+                    copyBtn.classList.add('copied');
+                    tooltipText.textContent = 'Copied!';
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        copyIcon.textContent = '📋';
+                        copyBtn.classList.remove('copied');
+                        tooltipText.textContent = 'Copy to clipboard';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    tooltipText.textContent = 'Failed to copy';
+                    setTimeout(() => {
+                        tooltipText.textContent = 'Copy to clipboard';
+                    }, 2000);
+                });
+            });
+        });
+    }
+    
+    // Initialize tooltips after content is loaded
+    initTooltips();
 });

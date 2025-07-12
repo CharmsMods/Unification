@@ -13,10 +13,10 @@
             <nav class="main-nav">
                 <div class="nav-left"></div>
                 <div class="nav-right">
+                    <!-- Hamburger Menu -->
                     <div class="menu-container">
                         <label class="hamburger">
                             <input type="checkbox" id="menu-toggle" />
-                            <span class="menu-text">MENU</span>
                             <svg viewBox="0 0 32 32">
                                 <path
                                     class="line line-top-bottom"
@@ -26,11 +26,10 @@
                             </svg>
                         </label>
                         <div class="dropdown-menu">
-                            <a href="#" class="menu-item">Home</a>
-                            <a href="#" class="menu-item">About</a>
-                            <a href="#" class="menu-item">Services</a>
-                            <a href="#" class="menu-item">Portfolio</a>
-                            <a href="#" class="menu-item">Contact</a>
+                            <a href="#landing-section" class="menu-item" data-section="landing">Home</a>
+                            <a href="#tools-section" class="menu-item" data-section="tools">Tools</a>
+                            <a href="#about-section" class="menu-item" data-section="about">About</a>
+                            <a href="#" class="menu-item" id="discord-link">Discord Server</a>
                         </div>
                     </div>
                 </div>
@@ -57,6 +56,51 @@
             </div>
         </div>
     </main>
+
+    <section id="tools-section" class="section">
+        <div class="container">
+            <h2>Community Tools</h2>
+            <div class="tools-container">
+                <div class="tools-category">
+                    <h3>Member-Created Tools</h3>
+                    <div class="tools-grid" id="member-tools">
+                        <!-- Member tools will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="tools-category">
+                    <h3>Recommended Tools</h3>
+                    <div class="tools-grid" id="external-tools">
+                        <!-- External tools will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-section" class="section">
+        <div class="container">
+            <h2>About This Hub</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to our community showcase! This platform serves as a central place to explore the tools, projects, and profiles created by our members.</p>
+                    
+                    <h3>Our Purpose</h3>
+                    <p>We're a diverse group of creators, developers, and enthusiasts who share a passion for technology, gaming, and digital creativity. This website brings together our collective work in one place.</p>
+                    
+                    <h3>Explore & Discover</h3>
+                    <p>Browse through the tools and content created by our community members. Each project represents the unique skills and interests of its creator.</p>
+                </div>
+                
+                <div class="about-image">
+                    <img src="images/community-placeholder.jpg" alt="Community Showcase" class="community-image">
+                </div>
+            </div>
+            
+            <div class="credits">
+                <p>Website created by <strong>Charm?</strong> with ❤️ for our community</p>
+            </div>
+        </div>
+    </section>
 
     <footer id="bottom-banner">
         <div class="container">
