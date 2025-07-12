@@ -34,7 +34,10 @@ export const UIManager = (() => {
   const setupEventListeners = () => {
     // Mobile menu toggle
     if (menuToggle) {
-      menuToggle.addEventListener('change', toggleMobileMenu);
+      menuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu();
+      });
     }
     
     // Theme toggle
@@ -59,10 +62,14 @@ export const UIManager = (() => {
    * Toggle mobile menu
    */
   const toggleMobileMenu = () => {
-    if (menuToggle.checked) {
-      openMobileMenu();
-    } else {
+    if (!dropdownMenu) return;
+    
+    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    
+    if (isExpanded) {
       closeMobileMenu();
+    } else {
+      openMobileMenu();
     }
   };
   
@@ -81,7 +88,7 @@ export const UIManager = (() => {
    */
   const closeMobileMenu = () => {
     if (menuToggle) {
-      menuToggle.checked = false;
+      menuToggle.setAttribute('aria-expanded', 'false');
     }
     if (dropdownMenu) {
       dropdownMenu.style.display = 'none';
