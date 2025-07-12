@@ -1,0 +1,138 @@
+/* Layout styles */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid system */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+/* Flex utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+/* Spacing utilities */
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-5 { margin-top: var(--spacing-xl); }
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .md\:flex-row {
+    flex-direction: row;
+  }
+}
+
+/* Landing section specific */
+#landing-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+              url('../backgrounds/1.webp') no-repeat center center,
+              url('../backgrounds/1.gif') no-repeat center center;
+  background-size: cover;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.main-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  position: relative;
+  z-index: 2;
+}
+
+/* User selection section */
+#user-selection-section {
+  background-color: var(--bg-secondary);
+}
+
+.member-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--bg-primary);
+}
+
+/* User content display */
+#user-content-display-section {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+#user-content-display-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+#user-content-area {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  background-color: rgba(26, 26, 26, 0.85);
+  border-radius: 8px;
+  color: var(--text-primary);
+}

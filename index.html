@@ -1,31 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Discord Hub</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="A community hub for our Discord server members to showcase their projects and connect with others.">
+    <title>Our Discord Hub | Connect and Collaborate</title>
+    <meta name="theme-color" content="#4a6bff">
+    <link rel="canonical" href="https://yourdomain.com">
+    <link rel="preload" href="css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload critical scripts -->
+    <link rel="modulepreload" href="/js/script.js">
+    <link rel="modulepreload" href="/js/modules/lazyLoad.js">
+    
+    <!-- Inline critical CSS -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .section { padding: 4rem 0; }
+        #landing-section { min-height: 100vh; display: flex; align-items: center; }
+        .hero-content { text-align: center; }
+        .main-nav { display: flex; justify-content: space-between; padding: 1rem 0; }
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; }
+        .btn-primary { background-color: var(--color-primary); color: white; }
+    </style>
 </head>
 <body>
 
-    <header id="landing-section" class="section">
+    <header id="landing-section" class="section" role="banner">
         <div class="container">
-            <nav class="main-nav">
-                <div class="nav-left"></div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <div class="nav-left">
+                    <a href="#main-content" class="skip-link">Skip to main content</a>
+                </div>
                 <div class="nav-right">
                     <!-- Hamburger Menu -->
                     <div class="menu-container">
-                        <label class="hamburger">
-                            <input type="checkbox" id="menu-toggle" />
-                            <svg viewBox="0 0 32 32">
+                        <button 
+                            id="menu-toggle" 
+                            class="hamburger" 
+                            aria-label="Menu" 
+                            aria-expanded="false" 
+                            aria-controls="dropdown-menu">
+                            <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
                                 <path
                                     class="line line-top-bottom"
                                     d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
                                 ></path>
                                 <path class="line" d="M7 16 27 16"></path>
                             </svg>
-                        </label>
-                        <div class="dropdown-menu">
+                        </button>
+                        <div id="dropdown-menu" class="dropdown-menu" aria-labelledby="menu-toggle">
                             <a href="#landing-section" class="menu-item" data-section="landing">Home</a>
                             <a href="#tools-section" class="menu-item" data-section="tools">Tools</a>
                             <a href="#about-section" class="menu-item" data-section="about">About</a>
@@ -43,12 +73,12 @@
     <section id="user-selection-section" class="section">
         <div class="container">
             <h2>Select a Member</h2>
-            <div class="member-buttons-container"> </div>
+            <div class="member-buttons-container" role="tablist"> </div>
             <p class="scroll-hint">Scroll to see more members &gt;&gt;</p>
         </div>
     </section>
 
-    <main id="user-content-display-section" class="section">
+    <main id="main-content" tabindex="-1" role="main">
         <div class="container">
             <h2><span id="selected-user-name"></span></h2>
             <div id="user-content-area">
@@ -92,7 +122,44 @@
                 </div>
                 
                 <div class="about-image">
-                    <img src="images/community-placeholder.jpg" alt="Community Showcase" class="community-image">
+                    <div class="image-wrapper">
+                        <picture>
+                            <!-- WebP format with srcset for different resolutions -->
+                            <source 
+                                type="image/webp" 
+                                data-srcset="
+                                    images/community-placeholder-400w.webp 400w,
+                                    images/community-placeholder-800w.webp 800w,
+                                    images/community-placeholder-1200w.webp 1200w"
+                                sizes="(max-width: 600px) 100vw, 50vw">
+                            <!-- Fallback to JPEG with srcset -->
+                            <img 
+                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23f0f0f0'/%3E%3C/svg%3E"
+                                data-src="images/community-placeholder-800w.jpg" 
+                                data-srcset="
+                                    images/community-placeholder-400w.jpg 400w,
+                                    images/community-placeholder-800w.jpg 800w,
+                                    images/community-placeholder-1200w.jpg 1200w"
+                                sizes="(max-width: 600px) 100vw, 50vw"
+                                alt="Community members collaborating on projects together" 
+                                class="community-image lazy-load"
+                                loading="lazy"
+                                width="800"
+                                height="600">
+                        </picture>
+                        <noscript>
+                            <img 
+                                src="images/community-placeholder-800w.jpg"
+                                srcset="
+                                    images/community-placeholder-400w.jpg 400w,
+                                    images/community-placeholder-800w.jpg 800w,
+                                    images/community-placeholder-1200w.jpg 1200w"
+                                sizes="(max-width: 600px) 100vw, 50vw"
+                                alt="Community members collaborating on projects together"
+                                width="800"
+                                height="600">
+                        </noscript>
+                    </div>
                 </div>
             </div>
             
@@ -102,7 +169,7 @@
         </div>
     </section>
 
-    <footer id="bottom-banner">
+    <footer role="contentinfo" id="bottom-banner">
         <div class="container">
             <p>&copy; 2025 Our Discord Community. All rights reserved.</p>
             <p>Made with &lt;3 for our friends.</p>
@@ -110,6 +177,48 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Load main script as module with defer -->
+    <script src="js/script.js" type="module" defer></script>
+    
+    <!-- Fallback for browsers that don't support modules -->
+    <script nomodule>
+        // Load a fallback bundle for older browsers
+        const script = document.createElement('script');
+        script.src = 'js/legacy-bundle.js';
+        document.body.appendChild(script);
+    </script>
+    
+    <!-- Load non-critical CSS after page load -->
+    <script>
+        /* Load non-critical CSS */
+        function loadCSS(href, before, media) {
+            var ss = window.document.createElement("link");
+            var ref = before || window.document.getElementsByTagName("script")[0];
+            var sheets = window.document.styleSheets;
+            ss.rel = "stylesheet";
+            ss.href = href;
+            ss.media = "only x";
+            ref.parentNode.insertBefore(ss, before);
+            
+            function toggleMedia() {
+                ss.media = media || "all";
+            }
+            
+            if (ss.addEventListener) {
+                ss.addEventListener("load", toggleMedia);
+            }
+            
+            // Fallback for old browsers
+            setTimeout(toggleMedia, 1000);
+            
+            return ss;
+        }
+        
+        // Load non-critical CSS after page load
+        window.addEventListener('load', function() {
+            // Load any additional CSS files here if needed
+            // loadCSS('path/to/non-critical.css');
+        });
+    </script>
 </body>
 </html>

@@ -1,169 +1,82 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Add fade-in class to elements that should fade in on load
-    const fadeElements = [
-        document.querySelector('.hero-content h1'),
-        document.querySelector('#user-selection-section h2'),
-        document.querySelector('.member-buttons-container')
-    ];
-    
-    // Add initial delay before starting animations
-    setTimeout(() => {
-        fadeElements.forEach((el, index) => {
-            if (el) {
-                // Add fade-in class with staggered delay
-                setTimeout(() => {
-                    el.classList.add('fade-in');
-                }, 300 * index); // Increased delay between elements
-            }
+// Import modules
+import { DataService } from './modules/dataService.js';
+import { UserManager } from './modules/userManager.js';
+import { ToolManager } from './modules/toolManager.js';
+import { UIManager } from './modules/uiManager.js';
+import { Animations } from './modules/animations.js';
+import { LazyLoad } from './modules/lazyLoad.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Initialize Lazy Loading
+        LazyLoad.init();
+        
+        // Initialize UI Manager
+        UIManager.init();
+        
+        // Initialize Animations
+        Animations.init();
+        
+        // Initialize User Manager
+        UserManager.init({
+            memberButtonsContainer: document.querySelector('.member-buttons-container'),
+            selectedUserNameSpan: document.getElementById('selected-user-name'),
+            userContentArea: document.getElementById('user-content-area'),
+            scrollHint: document.querySelector('.scroll-hint')
         });
-    }, 500); // Initial delay before any animation starts
-    
-    // Initialize the page
-    const userSelectionSection = document.getElementById('user-selection-section');
-
-    // Updated Dummy user data with background images
-    const users = [
-        { 
-            id: 'user-kingbowserxd', 
-            name: 'King_BowserxD', 
-            content: 'Bowser is the king of the castle! Expect epic gaming highlights and maybe some villainous plans.',
-            background: 'kingbowserxd.webp',
-            social: {
-                discord: '1096806519066079395'
+        
+        // Initialize Tool Manager
+        ToolManager.init({
+            memberToolsContainer: document.getElementById('member-tools'),
+            externalToolsContainer: document.getElementById('external-tools')
+        });
+        
+        // Render initial content
+        await UserManager.renderUserButtons();
+        
+        // Select the first user by default if on the user content page
+        if (window.location.hash === '#user-content-display-section') {
+            const firstUserButton = document.querySelector('.user-button');
+            if (firstUserButton) {
+                firstUserButton.click();
             }
-        },
-        { 
-            id: 'user-charm', 
-            name: 'Charm?', 
-            content: 'Charm shares cool tech and bio updates. Always up-to-date with the latest gadgets and trends.',
-            background: 'charm.mp4',
-            backgroundType: 'video', // Indicate this is a video background
-            social: {
-                discord: '1198452446456983605'
-            }
-        },
-        { 
-            id: 'user-inception', 
-            name: 'Inception', 
-            content: 'Inception explores deep ideas and cryptic messages. Dive into complex theories and mind-bending concepts.',
-            background: 'inception.gif', // Changed to GIF for animated background
-            social: {
-                discord: '1332182284081696800'
-            }
-        },
-        { 
-            id: 'user-nypd', 
-            name: 'NYPD', 
-            content: 'NYPD keeps an eye on the server and shares good vibes. Providing a sense of order and fun.',
-            background: 'nypd.webp',
-            social: {
-                discord: '1053300051595763773'
-            }
-        },
-        { 
-            id: 'user-lisa061', 
-            name: 'Lisa061', 
-            content: 'Lisa is all about art and creativity. Discover beautiful illustrations and artistic projects.',
-            background: 'lisa061.webp',
-            social: {
-                discord: '1289247224072507396'
-            }
-        },
-        { 
-            id: 'user-lucky', 
-            name: 'Lucky?', 
-            content: 'Lucky shares fun stuff and good omens. Get your daily dose of good fortune and lighthearted content.',
-            background: 'lucky.webp',
-            social: {
-                discord: '1287187439797932062'
-            }
-        },
-        { 
-            id: 'user-ydkaaron19', 
-            name: 'ydk_aaron19', 
-            content: 'Aaron is crowned for his contributions. A true leader sharing insights and wisdom.',
-            background: 'aaron19.webp',
-            social: {
-                discord: '1308968657728045098'
-            }
-        },
-        { 
-            id: 'user-jonath94k', 
-            name: 'jonath94k', 
-            content: 'Jonath brings unique perspectives. Explore different viewpoints and engaging discussions.',
-            background: 'jonath94k.webp',
-            social: {
-                discord: '909792062386360320'
-            }
-        },
-        // Add more users here if needed
-        // { id: 'user-newguy', name: 'NewGuy', content: 'NewGuy is just getting started, but has great potential!' }
-    ];
-
-    const memberButtonsContainer = document.querySelector('.member-buttons-container'); // Updated selector
-    const selectedUserNameSpan = document.getElementById('selected-user-name');
-    const userContentArea = document.getElementById('user-content-area');
-    const scrollHint = document.querySelector('.scroll-hint');
-
-    // Function to render user buttons
-    function renderUserCards() {
-        memberButtonsContainer.innerHTML = ''; // Clear existing buttons
-        users.forEach(user => {
-            // Each user is now a single <p> element with the .user-button class
-            const userButtonP = document.createElement('p');
-            userButtonP.classList.add('user-button'); // Use the new class
-            userButtonP.dataset.userId = user.id;
-
-            const span = document.createElement('span');
-            span.textContent = user.name; // Display user's name
-            userButtonP.appendChild(span);
-
-            userButtonP.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                selectUser(user);
+        }
+        
+        // Add fade-in animation to hero content
+        const fadeElements = [
+            document.querySelector('.hero-content h1'),
+            document.querySelector('#user-selection-section h2'),
+            document.querySelector('.member-buttons-container')
+        ];
+        
+        // Add initial delay before starting animations
+        setTimeout(() => {
+            fadeElements.forEach((el, index) => {
+                if (el) {
+                    // Add fade-in class with staggered delay
+                    setTimeout(() => {
+                        el.classList.add('fade-in');
+                    }, 300 * index);
+                }
             });
-            memberButtonsContainer.appendChild(userButtonP);
-        });
-
-        // Show scroll hint if there are many users
-        // This check needs to be more robust for flex-wrap.
-        // For now, it will primarily check if the container overflows vertically.
-        // A better check would involve comparing number of elements vs. screen width,
-        // or just removing the hint if flex-wrap makes it always visible without scrolling.
-        // For simplicity, we'll keep the basic scroll check.
-        if (memberButtonsContainer.scrollHeight > memberButtonsContainer.clientHeight + 10) { // +10 for tolerance
-            scrollHint.style.display = 'block';
-        } else {
-            scrollHint.style.display = 'none';
-        }
+        }, 500);
+        
+    } catch (error) {
+        console.error('Error initializing application:', error);
+        // Show error message to the user
+        const errorContainer = document.createElement('div');
+        errorContainer.className = 'error-container';
+        errorContainer.innerHTML = `
+            <h2>Oops! Something went wrong</h2>
+            <p>We're having trouble loading the application. Please try refreshing the page.</p>
+            <button onclick="window.location.reload()" class="btn btn-primary">
+                Refresh Page
+            </button>
+        `;
+        document.body.innerHTML = '';
+        document.body.appendChild(errorContainer);
     }
-
-    // Function to select a user and display their content
-    function selectUser(user) {
-        // Remove 'active' class from all previously selected buttons
-        document.querySelectorAll('.user-button').forEach(btn => btn.classList.remove('active'));
-
-        // Add 'active' class to the clicked user's button
-        const clickedUserButton = document.querySelector(`.user-button[data-user-id="${user.id}"]`);
-        
-        // Set the user-specific background for the content section
-        const userContentSection = document.getElementById('user-content-display-section');
-        
-        // Remove any existing background elements
-        const existingBg = document.getElementById('bg-overlay');
-        if (existingBg) {
-            existingBg.remove();
-        }
-        
-        if (user.background) {
-            const backgroundPath = `backgrounds/usersbackgrounds/${user.background}`;
-            const isGif = user.background.toLowerCase().endsWith('.gif');
-            const isVideo = user.backgroundType === 'video' || user.background.toLowerCase().endsWith('.mp4') || 
-                           user.background.toLowerCase().endsWith('.webm');
-            
-            // Reset any previous background styles
-            userContentSection.style.background = '';
-            userContentSection.style.backgroundColor = '';
+});
             
             // Create a container for the background
             const bgOverlay = document.createElement('div');
@@ -339,6 +252,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 socialLinks.appendChild(githubLink);
             }
             
+            // Add website links if they exist
+            if (user.social.websites && user.social.websites.length > 0) {
+                user.social.websites.forEach(site => {
+                    const siteLink = document.createElement('a');
+                    siteLink.href = site.url;
+                    siteLink.target = '_blank';
+                    siteLink.rel = 'noopener noreferrer';
+                    siteLink.innerHTML = `${site.icon || '🔗'} ${site.name}`;
+                    siteLink.classList.add('social-link', 'website');
+                    socialLinks.appendChild(document.createElement('br'));
+                    socialLinks.appendChild(siteLink);
+                });
+            }
+            
             if (socialLinks.hasChildNodes()) {
                 contentDiv.appendChild(document.createElement('br'));
                 contentDiv.appendChild(socialLinks);
@@ -347,9 +274,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         userContentArea.appendChild(contentDiv);
 
-        // Only scroll if this was triggered by a user click (not initial load)
-        if (event && event.type === 'click') {
-            userContentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Scroll to content area if this was triggered by a user click
+        if (event) {
+            try {
+                userContentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (e) {
+                console.error('Scroll error:', e);
+                // Fallback to simple scroll if smooth fails
+                window.scrollTo(0, userContentArea.offsetTop);
+            }
         }
     }
 
